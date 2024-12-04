@@ -1,0 +1,13 @@
+---
+- name: Backup current sshd_config
+  copy:
+    src: /etc/ssh/sshd_config
+    dest: /etc/ssh/sshd_config.bak
+    remote_src: yes
+    force: yes
+
+- name: Configure SSH settings
+  template:
+      src: sshd_config.j2
+      dest: /etc/ssh/sshd_config
+  notify: Restart ssh

@@ -1,0 +1,6 @@
+---
+- hosts: servers
+  vars:
+    ansible_pyhton_interpreter: /usr/bin/python3
+  roles:
+      - { role: /etc/ansible/roles/sshd_config, become: true}

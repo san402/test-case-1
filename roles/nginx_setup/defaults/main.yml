@@ -1,0 +1,9 @@
+---
+nginx_vhost_domain: myserver.com
+nginx_vhost_root: /var/www/html
+locations:
+  - path: /images/
+    alias: /var/www/static/
+
+
+

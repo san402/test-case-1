@@ -1,0 +1,8 @@
+---
+- hosts: servers
+  vars:
+    ansible_pyhton_interpreter: /usr/bin/python3
+  roles:
+      - { role: /etc/ansible/roles/static_files_deployment, become: true}
+
+

@@ -1,0 +1,8 @@
+---
+- hosts: servers
+  vars:
+    ansible_pyhton_interpreter: /usr/bin/python3
+  vars_files:
+    - roles/user_management/vault.yml
+  roles:
+    - { role: /etc/ansible/roles/user_management, become: true}

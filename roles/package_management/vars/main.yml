@@ -1,0 +1,21 @@
+---
+vars_files:
+    - /etc/ansible/roles/package_management/defaults/main.yml
+default_packages:
+  - htop
+  - ncdu
+  - git
+  - nano
+
+extra_packages:
+  - vim
+  - nano
+
+additional_packages: "{{ default_packages + extra_packages }}"
+
+
+
+packages_to_update:
+  - htop
+  - ncdu
+  - git

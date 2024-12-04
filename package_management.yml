@@ -1,0 +1,8 @@
+---
+- hosts: servers
+  vars:
+    ansible_pyhton_interpreter: /usr/bin/python3
+  roles:
+      - { role: /etc/ansible/roles/package_management, become: true}
+
+

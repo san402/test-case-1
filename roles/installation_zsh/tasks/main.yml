@@ -1,0 +1,57 @@
+---
+- name: Ensure zsh is installed
+  apt:
+   name: zsh
+   state: present
+   
+- name: Check users with zsh as their shell
+  shell: "getent passwd | awk -F: '$7 == \"/bin/zsh\" { print $1 }'"
+  register: zsh_users
+  changed_when: false
+
+- name: Confirm packages necessary for zsh configuration are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+
+
+- name: Check users with ohmyzsh as their shell
+  shell: "getent passwd | awk -F: '$7 == \"/bin/ohmyzsh\" { print $1 }'"
+  register: ohmyzsh_users
+  changed_when: false
+
+- name: Install Oh My Zsh for users with zsh shell
+  become: yes
+  become_user: "{{ item }}"
+  shell: curl -Lo install.sh https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh && sh install.sh --unattended
+  loop: "{{ zsh_users.stdout_lines }}"
+  when: zsh_users.stdout_lines | length > 0
+
+       ##   - name: Check the shell of the user
+       ##     shell: "getent passwd {{ user}} | cut -d: -f7" 
+       ##     register: user_info
+       ##
+       ##   - name: Set flag if any user has /bin/zsh as their shell
+       ##     set_fact:
+       ##        install_htop: true
+       ##     when: item.split(':')[-1].strip() == "/bin/zsh"
+       ##     loop: "{{ user_info.passwd }}"
+       ##     loop_control:
+       ##        label: "{{ item.split(':')[0] }}"
+       ##     vars:
+       ##        install_zsh: false
+       ##
+       ##   - name: Install zsh if shell is /bin/zsh
+       ##     apt:
+       ##       name: zsh
+       ##       state: present
+       ##     when: install_zsh
+       ##
+       ##   - name: Install ohmyzsh if shell is /bin/ohmyzsh
+       ##     apt:
+       ##        name: ohmyzsh
+       ##        state: present
+       ##     when: shell_output.stdout == "/bin/ohmyzsh"
+      
