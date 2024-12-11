@@ -1,6 +1,0 @@
----
-packages_to_update:
-  - htop
-  - ncdu
-  - git
-
